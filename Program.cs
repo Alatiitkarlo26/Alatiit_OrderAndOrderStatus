@@ -14,6 +14,7 @@
                 int quantity;
                 
                 Console.Clear();
+                Console.WriteLine("Welcome To Karlo's Gadget Store!");
                 Console.WriteLine(" PRODUCT MENU ");
                 Console.WriteLine("1. Laptop - $800");
                 Console.WriteLine("2. Smartphone - $500");
