@@ -17,8 +17,8 @@ namespace GadgetStoreDataService
             new Product { Name = "PC", Price = 2000 },
             new Product { Name = "Monitor", Price = 150 }
             };
-            }
 
-            // We use a static list to "persist" data while the app is running
+            }
             public static List<Transaction> History = new List<Transaction>();
-        } }
+        } 
+}
