@@ -9,12 +9,13 @@ namespace GadgetStore
 {
     class Program
     {
-
+      
         private static DataRepository _data = new DataRepository();
         private static StoreEngine _engine = new StoreEngine();
 
         static void Main(string[] args)
         {
+            Console.Title = "Karlo's Gadget Store";
             bool exitApp = false;
 
             while (!exitApp)
