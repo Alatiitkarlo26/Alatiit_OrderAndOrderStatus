@@ -9,8 +9,8 @@ namespace GadgetStore
 {
     class Program
     {
-
-        private static DataRepository _data = new DataRepository();
+       
+        private static GadgetStoreJsonData _dataService = new GadgetStoreJsonData();
         private static StoreEngine _engine = new StoreEngine();
 
         static void Main(string[] args)
@@ -53,11 +53,12 @@ namespace GadgetStore
 
         static void RunShoppingSession()
         {
-            double subtotal = 0;
+            decimal subtotal = 0;
             List<string> purchasedItems = new List<string>();
             string continueShopping = "y";
 
-            var inventory = _data.GetProducts();
+       
+            var inventory = _dataService.GetProducts();
 
             while (continueShopping == "y")
             {
@@ -78,6 +79,7 @@ namespace GadgetStore
                     Console.Write($"Quantity of {selected.Name}: ");
                     if (int.TryParse(Console.ReadLine(), out int qty))
                     {
+                       
                         subtotal += (selected.Price * qty);
                         purchasedItems.Add($"{qty}x {selected.Name}");
                     }
@@ -85,6 +87,7 @@ namespace GadgetStore
                 else
                 {
                     Console.WriteLine("Product not found!");
+                    Console.ReadKey();
                 }
 
                 Console.Write("\nAdd more? (y/n): ");
@@ -97,30 +100,30 @@ namespace GadgetStore
             }
         }
 
-        static void ProcessCheckout(double subtotal, string summary)
+        static void ProcessCheckout(decimal subtotal, string summary)
         {
-        
-            double totalWithTax = _engine.CalculateTotalWithTax(subtotal);
+          
+            decimal totalWithTax = _engine.CalculateTotalWithTax(subtotal);
 
             Console.WriteLine("\n--- CHECKOUT ---");
             Console.WriteLine($"Subtotal:  ${subtotal:N2}");
             Console.WriteLine($"Total (Inc. 12% Tax): ${totalWithTax:N2}");
 
             Console.Write("\nEnter cash amount: $");
-            double cash = Convert.ToDouble(Console.ReadLine());
-
-            if (cash >= totalWithTax)
+            if (decimal.TryParse(Console.ReadLine(), out decimal cash))
             {
-                Console.WriteLine($"Change: ${(cash - totalWithTax):N2}");
+                if (cash >= totalWithTax)
+                {
+                    Console.WriteLine($"Change: ${(cash - totalWithTax):N2}");
 
-             
-                _engine.SaveTransaction(summary, totalWithTax);
+                    _engine.SaveTransaction(Guid.Empty, summary, 1, totalWithTax);
 
-                Console.WriteLine("Transaction Complete!");
-            }
-            else
-            {
-                Console.WriteLine("Insufficient funds. Transaction cancelled.");
+                    Console.WriteLine("Transaction Complete!");
+                }
+                else
+                {
+                    Console.WriteLine("Insufficient funds. Transaction cancelled.");
+                }
             }
 
             Console.WriteLine("\nPress any key to return to menu...");
@@ -132,10 +135,10 @@ namespace GadgetStore
             Console.Clear();
             Console.WriteLine("=== TRANSACTION HISTORY ===");
 
-          
-            var history = DataRepository.History;
+            
+            var history = _dataService.GetHistory();
 
-            if (history.Count == 0)
+            if (history == null || history.Count == 0)
             {
                 Console.WriteLine("No records found.");
             }
@@ -143,7 +146,8 @@ namespace GadgetStore
             {
                 foreach (var t in history)
                 {
-                    Console.WriteLine($"[{t.Date:HH:mm}] {t.Summary} | Paid: ${t.TotalPaid:N2}");
+                  
+                    Console.WriteLine($"[{t.TransactionDate:MM/dd HH:mm}] {t.ProductName} | Paid: ${t.TotalPrice:N2}");
                 }
             }
 
