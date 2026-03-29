@@ -1,0 +1,44 @@
+[
+  {
+    "ProductId": "8e5cfb50-3b2d-4ef9-a740-ccc397c5860b",
+    "Name": "Laptop",
+    "Price": 800,
+    "Stock": 10
+  },
+  {
+    "ProductId": "fe9100e9-fa2f-4e9a-938f-6c305d4a0215",
+    "Name": "Smartphone",
+    "Price": 500,
+    "Stock": 15
+  },
+  {
+    "ProductId": "e9b48086-08f2-450c-bdd2-d94f84cf5c0e",
+    "Name": "Headphones",
+    "Price": 75,
+    "Stock": 30
+  },
+  {
+    "ProductId": "76514512-3098-449f-967b-e7bfdfc37c37",
+    "Name": "Keyboard",
+    "Price": 40,
+    "Stock": 20
+  },
+  {
+    "ProductId": "b1b1d55e-900c-4dc8-a372-37a7b43bf1a4",
+    "Name": "Mouse",
+    "Price": 25,
+    "Stock": 25
+  },
+  {
+    "ProductId": "243bb6e1-cc45-4ebf-84f2-8a59370a7e3a",
+    "Name": "PC",
+    "Price": 2000,
+    "Stock": 5
+  },
+  {
+    "ProductId": "3260cd31-7f6b-459a-97d5-69724a260477",
+    "Name": "Monitor",
+    "Price": 150,
+    "Stock": 12
+  }
+]

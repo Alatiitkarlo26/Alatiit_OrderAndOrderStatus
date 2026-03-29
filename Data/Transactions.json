@@ -1,0 +1,98 @@
+[
+  {
+    "TransactionId": "2974fefc-6c44-48d5-bc1a-7af43488378e",
+    "ProductId": "00000000-0000-0000-0000-000000000000",
+    "ProductName": "2x PC",
+    "Quantity": 1,
+    "TotalPrice": 4480.00,
+    "TransactionDate": "2026-03-22T20:29:23.3546433+08:00"
+  },
+  {
+    "TransactionId": "06b122b1-cc69-48eb-8b2a-8899c0e6d59c",
+    "ProductId": "00000000-0000-0000-0000-000000000000",
+    "ProductName": "1x Laptop, 2x Smartphone, 3x Mouse",
+    "Quantity": 1,
+    "TotalPrice": 2100.00,
+    "TransactionDate": "2026-03-22T20:30:52.8402993+08:00"
+  },
+  {
+    "TransactionId": "9e628667-8e0f-4da2-bd7c-38b6d32e389d",
+    "ProductId": "00000000-0000-0000-0000-000000000000",
+    "ProductName": "10x PC",
+    "Quantity": 1,
+    "TotalPrice": 22400.00,
+    "TransactionDate": "2026-03-22T20:31:50.9443366+08:00"
+  },
+  {
+    "TransactionId": "b6ba3812-c155-4594-8874-095a3f5dad86",
+    "ProductId": "00000000-0000-0000-0000-000000000000",
+    "ProductName": "67x Laptop",
+    "Quantity": 1,
+    "TotalPrice": 60032.00,
+    "TransactionDate": "2026-03-22T20:33:43.0252313+08:00"
+  },
+  {
+    "TransactionId": "9959cdb3-f6b1-4f2a-b1e6-5731f94972fa",
+    "ProductId": "00000000-0000-0000-0000-000000000000",
+    "ProductName": "2x PC, 32x Laptop",
+    "Quantity": 1,
+    "TotalPrice": 33152.00,
+    "TransactionDate": "2026-03-22T21:16:12.2180203+08:00"
+  },
+  {
+    "TransactionId": "dd6d32b7-e0c7-4092-9008-d14274dd8b4d",
+    "ProductId": "00000000-0000-0000-0000-000000000000",
+    "ProductName": "67x Mouse",
+    "Quantity": 1,
+    "TotalPrice": 1876.00,
+    "TransactionDate": "2026-03-22T21:17:21.2979621+08:00"
+  },
+  {
+    "TransactionId": "79f13489-7f15-401a-a191-264873ea29ac",
+    "ProductId": "00000000-0000-0000-0000-000000000000",
+    "ProductName": "5x Headphones, 5x Mouse, 5x Keyboard",
+    "Quantity": 1,
+    "TotalPrice": 784.00,
+    "TransactionDate": "2026-03-22T21:59:11.1069222+08:00"
+  },
+  {
+    "TransactionId": "d07d2bc9-5d25-4f09-8206-c680d12295d3",
+    "ProductId": "00000000-0000-0000-0000-000000000000",
+    "ProductName": "1x Mouse",
+    "Quantity": 1,
+    "TotalPrice": 28.00,
+    "TransactionDate": "2026-03-22T22:05:07.5146826+08:00"
+  },
+  {
+    "TransactionId": "43965b48-c969-4a0e-ad2f-6cce28e2ed2f",
+    "ProductId": "00000000-0000-0000-0000-000000000000",
+    "ProductName": "1x PC",
+    "Quantity": 1,
+    "TotalPrice": 2240.00,
+    "TransactionDate": "2026-03-22T22:08:42.1227336+08:00"
+  },
+  {
+    "TransactionId": "ed1c3497-7901-4122-b98c-ea6f9c9efe63",
+    "ProductId": "00000000-0000-0000-0000-000000000000",
+    "ProductName": "69x PC",
+    "Quantity": 1,
+    "TotalPrice": 154560.00,
+    "TransactionDate": "2026-03-22T22:45:38.6833568+08:00"
+  },
+  {
+    "TransactionId": "43d9163e-eab6-4df1-8d8b-f03eb70fcce9",
+    "ProductId": "00000000-0000-0000-0000-000000000000",
+    "ProductName": "1x PC",
+    "Quantity": 1,
+    "TotalPrice": 2240.00,
+    "TransactionDate": "2026-03-29T19:17:07.894936+08:00"
+  },
+  {
+    "TransactionId": "b826849b-737d-4d0c-a2a1-6ad711aacf5f",
+    "ProductId": "00000000-0000-0000-0000-000000000000",
+    "ProductName": "2x PC",
+    "Quantity": 1,
+    "TotalPrice": 4480.00,
+    "TransactionDate": "2026-03-29T19:18:11.8709586+08:00"
+  }
+]

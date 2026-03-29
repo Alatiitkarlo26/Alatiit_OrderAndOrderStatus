@@ -13,4 +13,8 @@
     <ProjectReference Include="..\GadgetStoreModels\GadgetStoreModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
 </Project>
