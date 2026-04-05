@@ -175,15 +175,26 @@ namespace GadgetStore
                     }
                     else if (action == "E")
                     {
+                        
                         Console.Write($"New Name (Current: {target.ProductName}): ");
                         string newName = Console.ReadLine();
                         if (!string.IsNullOrEmpty(newName)) target.ProductName = newName;
 
-                        Console.Write($"New Total (Current: {target.TotalPrice}): ");
-                        if (decimal.TryParse(Console.ReadLine(), out decimal newPrice)) target.TotalPrice = newPrice;
+                      
+                        Console.Write($"New Quantity (Current: {target.Quantity}): ");
+                        if (int.TryParse(Console.ReadLine(), out int newQty) && newQty > 0)
+                        {
+                            
+                            decimal unitPrice = target.TotalPrice / target.Quantity;
+                            target.Quantity = newQty;
+   
+                            target.TotalPrice = unitPrice * newQty;
 
+                            Console.WriteLine($"Quantity updated! New Total: ${target.TotalPrice:N2}");
+                        }
+                
                         _engine.UpdateTransaction(target);
-                        Console.WriteLine("Record Updated.");
+                        Console.WriteLine("Record Updated successfully!");
                     }
                 }
                 else Console.WriteLine("Transaction ID not found.");
