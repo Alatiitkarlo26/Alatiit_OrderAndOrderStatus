@@ -8,13 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GadgetStoreAppService\GadgetStoreAppService.csproj" />
-    <ProjectReference Include="..\GadgetStoreDataService\GadgetStoreDataService.csproj" />
-    <ProjectReference Include="..\GadgetStoreModels\GadgetStoreModels.csproj" />
+    <Compile Remove="GadgetStoreAppService\**" />
+    <Compile Remove="GadgetStoreDataService\**" />
+    <Compile Remove="GadgetStoreModels\**" />
+    <EmbeddedResource Remove="GadgetStoreAppService\**" />
+    <EmbeddedResource Remove="GadgetStoreDataService\**" />
+    <EmbeddedResource Remove="GadgetStoreModels\**" />
+    <None Remove="GadgetStoreAppService\**" />
+    <None Remove="GadgetStoreDataService\**" />
+    <None Remove="GadgetStoreModels\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
+    <ProjectReference Include="..\GadgetStoreAppService\GadgetStoreAppService.csproj" />
+    <ProjectReference Include="..\GadgetStoreDataService\GadgetStoreDataService.csproj" />
+    <ProjectReference Include="..\GadgetStoreModels\GadgetStoreModels.csproj" />
   </ItemGroup>
 
 </Project>

@@ -17,7 +17,7 @@ namespace GadgetStoreDataService
 
         public GadgetStoreJsonData()
         {
-            
+           
             _productFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Products.json");
             _transactionFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Transactions.json");
 
@@ -26,14 +26,13 @@ namespace GadgetStoreDataService
 
         private void InitializeData()
         {
-            
+           
             if (File.Exists(_productFileName))
             {
                 RetrieveProducts();
             }
             else
             {
-                
                 _products = new List<Product>
                 {
                     new Product { ProductId = Guid.NewGuid(), Name = "Laptop", Price = 800, Stock = 10 },
@@ -47,7 +46,6 @@ namespace GadgetStoreDataService
                 SaveProducts();
             }
 
-            
             if (File.Exists(_transactionFileName))
             {
                 RetrieveTransactions();
@@ -57,8 +55,21 @@ namespace GadgetStoreDataService
         #region Product Logic
         public List<Product> GetProducts()
         {
-            RetrieveProducts();
+            RetrieveProducts(); 
             return _products;
+        }
+
+     
+        public void UpdateProductStock(Guid productId, int quantitySold)
+        {
+            RetrieveProducts();
+            var product = _products.FirstOrDefault(p => p.ProductId == productId);
+            if (product != null)
+            {
+                product.Stock -= quantitySold;
+                if (product.Stock < 0) product.Stock = 0; 
+                SaveProducts();
+            }
         }
 
         public void AddProduct(Product product)
@@ -84,7 +95,7 @@ namespace GadgetStoreDataService
         }
         #endregion
 
-        #region Transaction Logic
+        #region Transaction Logic (CRUD)
         public List<Transaction> GetHistory()
         {
             RetrieveTransactions();
@@ -94,9 +105,30 @@ namespace GadgetStoreDataService
         public void AddTransaction(Transaction transaction)
         {
             if (transaction.TransactionId == Guid.Empty) transaction.TransactionId = Guid.NewGuid();
-            transaction.TransactionDate = DateTime.Now;
+
+           
+            if (transaction.TransactionDate == DateTime.MinValue)
+                transaction.TransactionDate = DateTime.Now;
 
             _transactions.Add(transaction);
+            SaveTransactions();
+        }
+
+        public void UpdateTransaction(Transaction updatedTransaction)
+        {
+            RetrieveTransactions();
+            var index = _transactions.FindIndex(t => t.TransactionId == updatedTransaction.TransactionId);
+            if (index != -1)
+            {
+                _transactions[index] = updatedTransaction;
+                SaveTransactions();
+            }
+        }
+
+        public void DeleteTransaction(Guid id)
+        {
+            RetrieveTransactions();
+            _transactions.RemoveAll(t => t.TransactionId == id);
             SaveTransactions();
         }
 
