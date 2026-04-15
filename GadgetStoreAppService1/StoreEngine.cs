@@ -13,6 +13,7 @@ namespace GadgetStoreAppService
 
         public decimal CalculateTotalWithTax(decimal subtotal)
         {
+            // Formula 
             return subtotal * 1.12m; 
         }
 
@@ -22,6 +23,7 @@ namespace GadgetStoreAppService
             return product != null && product.Stock >= requestedQty;
         }
 
+        // Handles a sale across all platforms.
         public void ProcessSale(Guid productId, string productName, int qty, decimal total)
         {
          
@@ -34,15 +36,18 @@ namespace GadgetStoreAppService
                 TransactionDate = DateTime.Now
             };
 
-         
+            // 1. Update the inventory file.
             _dataService.UpdateProductStock(productId, qty);
+
+            // 2. Add the record to the JSON history.
             _dataService.AddTransaction(newSale);
 
-         
+            // 3. Sync the record to the XAMPP MySQL database.
             _dbService.SaveTransactionToDb(newSale);
         }
 
-   
+
+        //  deletion in both storage systems.
         public void DeleteTransaction(Guid id)
         {
             _dataService.DeleteTransaction(id);

@@ -8,14 +8,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="GadgetStoreAppServicee\**" />
     <Compile Remove="GadgetStoreAppService\**" />
+    <Compile Remove="GadgetStoreDataServicee\**" />
     <Compile Remove="GadgetStoreDataService\**" />
+    <Compile Remove="GadgetStoreModelss\**" />
     <Compile Remove="GadgetStoreModels\**" />
+    <EmbeddedResource Remove="GadgetStoreAppServicee\**" />
     <EmbeddedResource Remove="GadgetStoreAppService\**" />
+    <EmbeddedResource Remove="GadgetStoreDataServicee\**" />
     <EmbeddedResource Remove="GadgetStoreDataService\**" />
+    <EmbeddedResource Remove="GadgetStoreModelss\**" />
     <EmbeddedResource Remove="GadgetStoreModels\**" />
+    <None Remove="GadgetStoreAppServicee\**" />
     <None Remove="GadgetStoreAppService\**" />
+    <None Remove="GadgetStoreDataServicee\**" />
     <None Remove="GadgetStoreDataService\**" />
+    <None Remove="GadgetStoreModelss\**" />
     <None Remove="GadgetStoreModels\**" />
   </ItemGroup>
 

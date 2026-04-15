@@ -17,13 +17,15 @@ namespace GadgetStoreDataService
 
         public GadgetStoreJsonData()
         {
-           
+            // Path.Combine ensures the file is created in the same folder where the app runs.
             _productFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Products.json");
             _transactionFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Transactions.json");
 
             InitializeData();
         }
 
+        // Logic to ensure the app starts with data. 
+        // If the JSON files don't exist, it seeds the store with default gadgets.
         private void InitializeData()
         {
            
@@ -59,15 +61,15 @@ namespace GadgetStoreDataService
             return _products;
         }
 
-     
+        // Subtracts units from inventory when a sale is finalized.
         public void UpdateProductStock(Guid productId, int quantitySold)
         {
-            RetrieveProducts();
+            RetrieveProducts(); // Always refresh list from file before editing.
             var product = _products.FirstOrDefault(p => p.ProductId == productId);
             if (product != null)
             {
                 product.Stock -= quantitySold;
-                if (product.Stock < 0) product.Stock = 0; 
+                if (product.Stock < 0) product.Stock = 0; // Prevent negative inventory.
                 SaveProducts();
             }
         }
@@ -102,6 +104,7 @@ namespace GadgetStoreDataService
             return _transactions;
         }
 
+        //  Adds a new record to the list and writes the whole list to JSON.
         public void AddTransaction(Transaction transaction)
         {
             if (transaction.TransactionId == Guid.Empty) transaction.TransactionId = Guid.NewGuid();
@@ -132,9 +135,10 @@ namespace GadgetStoreDataService
             SaveTransactions();
         }
 
+        // Converts the C# List into a JSON string and writes it to the disk.
         private void SaveTransactions()
         {
-            var options = new JsonSerializerOptions { WriteIndented = true };
+            var options = new JsonSerializerOptions { WriteIndented = true };  // Makes the JSON readable.
             string jsonString = JsonSerializer.Serialize(_transactions, options);
             File.WriteAllText(_transactionFileName, jsonString);
         }

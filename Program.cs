@@ -1,20 +1,26 @@
-﻿using System;
+﻿using GadgetStoreAppService;
+using GadgetStoreDataService;
+using GadgetStoreModels;
+using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using GadgetStoreModels;
-using GadgetStoreAppService;
-using GadgetStoreDataService;
+using System.Reflection.Metadata;
+using System.Security.Policy;
 
 namespace GadgetStore
 {
     class Program
     {
+        // We initialize the data service (for reading JSON) 
+        // and the engine (for processing logic like sales and updates).
         private static GadgetStoreJsonData _dataService = new GadgetStoreJsonData();
         private static StoreEngine _engine = new StoreEngine();
 
         static void Main(string[] args)
         {
             bool exitApp = false;
+            // Keeps the program running until "Exit" is chosen.
             while (!exitApp)
             {
                 DisplayMainMenu();
@@ -43,9 +49,14 @@ namespace GadgetStore
             Console.Write("\nSelect Action: ");
         }
 
+        // SHOPPING LOGIC: Handles picking items and checking stock.
         static void RunShoppingSession()
         {
+            // CART: A temporary list of "Tuples". It stores the Product object 
+            // and the specific quantity the user wants to buy.
             List<(Product Item, int Qty)> cart = new List<(Product Item, int Qty)>();
+
+            // Gets the latest stock levels from the JSON file
             var inventory = _dataService.GetProducts();
 
             while (true)
@@ -54,7 +65,7 @@ namespace GadgetStore
                 Console.WriteLine("--- AVAILABLE PRODUCTS ---");
                 foreach (var p in inventory)
                 {
-                 
+                    // :N2 format ensures price shows as $0.00, and -15 pads the name for alignment.
                     Console.WriteLine($"{p.Name,-15} | ${p.Price,8:N2} | Stock: {p.Stock}");
                 }
 
@@ -62,12 +73,15 @@ namespace GadgetStore
                 string choice = Console.ReadLine()?.ToLower();
                 if (choice == "done") break;
 
+                // SEARCH: Finds the product in the list that matches the user's typed name.
                 var selected = inventory.FirstOrDefault(p => p.Name.ToLower() == choice);
+
                 if (selected != null)
                 {
                     Console.Write($"Quantity of {selected.Name}: ");
                     if (int.TryParse(Console.ReadLine(), out int qty) && qty > 0)
-                    {
+                    { 
+                        // Ensures we don't sell more than we actually have in JSON.
                         if (qty <= selected.Stock)
                         {
                             cart.Add((selected, qty));
@@ -87,13 +101,15 @@ namespace GadgetStore
                 Console.ReadKey();
             }
 
+            // Only proceed to checkout if the user actually added something to the cart.
             if (cart.Count > 0) ProcessCheckout(cart);
         }
 
+        // FINANCIAL LOGIC: Calculates totals, taxes, and handles the cash payment.
         static void ProcessCheckout(List<(Product Item, int Qty)> cart)
-        {
-            decimal subtotal = cart.Sum(c => c.Item.Price * c.Qty);
-            decimal totalWithTax = _engine.CalculateTotalWithTax(subtotal);
+        {   
+            decimal subtotal = cart.Sum(c => c.Item.Price * c.Qty); // MATH: Sums up (Price * Quantity) for every item in the cart.
+            decimal totalWithTax = _engine.CalculateTotalWithTax(subtotal); // TAX: Calls the Engine to apply the 12% tax.
 
             Console.Clear();
             Console.WriteLine("--- CHECKOUT ---");
@@ -107,10 +123,12 @@ namespace GadgetStore
             Console.Write("\nEnter Cash Amount: ");
             if (decimal.TryParse(Console.ReadLine(), out decimal cash))
             {
-                if (cash >= totalWithTax)
+                if (cash >= totalWithTax) // PAYMENT CHECK: Only save if the user provided enough money.
                 {
                     Console.WriteLine($"Change: ${(cash - totalWithTax):N2}");
 
+                    // SAVE: For every item in the cart, tell the Engine to:
+                    // 1. Update JSON stock. 2. Save JSON transaction. 3. Save MySQL transaction.
                     foreach (var entry in cart)
                     {
                         _engine.ProcessSale(
@@ -135,7 +153,8 @@ namespace GadgetStore
             Console.ReadKey();
         }
 
-        static void ViewHistory()
+        // MANAGEMENT LOGIC: View sales, and provides options to Edit or Delete records.
+        static void ViewHistory() 
         {
             Console.Clear();
             Console.WriteLine("=== TRANSACTION HISTORY ===");
@@ -149,7 +168,7 @@ namespace GadgetStore
                 return;
             }
 
-            foreach (var t in history)
+            foreach (var t in history) // Lists every transaction found in the JSON/Database.
             {
                 Console.WriteLine($"ID: {t.TransactionId}");
                 Console.WriteLine($"[{t.TransactionDate:MM/dd HH:mm}] {t.ProductName} ({t.Quantity} units) | Total: ${t.TotalPrice:N2}");
@@ -162,17 +181,20 @@ namespace GadgetStore
 
             if (action == "D" || action == "E")
             {
+                // Since GUIDs are long, we let the user type just the first few characters.
                 Console.Write("Enter ID (First 8 chars): ");
                 string inputId = Console.ReadLine();
                 var target = history.FirstOrDefault(t => t.TransactionId.ToString().StartsWith(inputId));
 
                 if (target != null)
-                {
+                {  
+                    // DELETE: Tells the engine to remove it from both JSON and MySQL.
                     if (action == "D")
                     {
                         _engine.DeleteTransaction(target.TransactionId);
                         Console.WriteLine("Record Deleted.");
                     }
+                    // EDIT: Allows updating the name or quantity of a past sale.
                     else if (action == "E")
                     {
                         
@@ -184,15 +206,17 @@ namespace GadgetStore
                         Console.Write($"New Quantity (Current: {target.Quantity}): ");
                         if (int.TryParse(Console.ReadLine(), out int newQty) && newQty > 0)
                         {
-                            
+                            // AUTO-RECALCULATION: 
+                            // 1. Find what the price was per unit (Total / Qty).
+                            // 2. Multiply that price by the NEW quantity.
                             decimal unitPrice = target.TotalPrice / target.Quantity;
                             target.Quantity = newQty;
-   
                             target.TotalPrice = unitPrice * newQty;
 
                             Console.WriteLine($"Quantity updated! New Total: ${target.TotalPrice:N2}");
                         }
-                
+
+                        // SYNC: Sends the modified object to the engine to update both storage systems.
                         _engine.UpdateTransaction(target);
                         Console.WriteLine("Record Updated successfully!");
                     }
