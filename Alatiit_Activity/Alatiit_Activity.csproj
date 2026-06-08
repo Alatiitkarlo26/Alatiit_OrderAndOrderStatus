@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="9.7.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="GadgetStoreAppService">
+      <HintPath>C:\Users\J E S U S\source\repos\Alatiit_OrderAndOrderStatus\bin\Debug\net8.0\GadgetStoreAppService.dll</HintPath>
+    </Reference>
+    <Reference Include="GadgetStoreDataService">
+      <HintPath>C:\Users\J E S U S\source\repos\Alatiit_OrderAndOrderStatus\bin\Debug\net8.0\GadgetStoreDataService.dll</HintPath>
+    </Reference>
+    <Reference Include="GadgetStoreModels">
+      <HintPath>C:\Users\J E S U S\source\repos\Alatiit_OrderAndOrderStatus\bin\Debug\net8.0\GadgetStoreModels.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
